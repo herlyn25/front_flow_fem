@@ -1,69 +1,42 @@
-// src/pages/Login.jsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import './Login.css';
+import { useState, useEffect } from "react";
+import "../styles/Login.css";
+import { loadTheme } from "../utils/themeLoader";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "femenino");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const success = await login({ username, password });
-    if (success) navigate("/home");
-    else setError("Invalid credentials");
+  const toggleTheme = () => {
+    const newTheme = theme === "femenino" ? "masculino" : "femenino";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    loadTheme(newTheme);
   };
 
+  useEffect(() => {
+    loadTheme(theme);
+  }, [theme]);
+
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="avatar">👤</div>
-
-        <div className="input-group">
-          <span className="icon">👤</span>
-          <input
-            type="email"
-            placeholder="Username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <div className="login-page">
+      <div className="login-left">
+        <div className="hero-image">
+          {/* Aquí puedes usar una imagen o ilustración médica */}
         </div>
-
-        <div className="input-group">
-          <span className="icon">🔒</span>
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <span
-            className="toggle-password"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? "🙈" : "👁️"}
-          </span>
+      </div>
+      <div className="login-right">
+        <div className="form-container">
+          <button className="theme-toggle" onClick={toggleTheme}>
+            Cambiar a {theme === "femenino" ? "masculino" : "femenino"}
+          </button>
+          <h2>Iniciar Sesión</h2>
+          <form>
+            <input type="email" placeholder="Email" />
+            <input type="password" placeholder="Contraseña" />
+            <button type="submit" className="login-btn">Login</button>
+          </form>
+          <a href="#">¿Olvidaste tu contraseña?</a>
         </div>
-
-        <div className="options">
-          <label>
-            <input type="checkbox" />
-            Remember me
-          </label>
-          <a href="#">Forgot password?</a>
-        </div>
-
-        {error && <p className="error">{error}</p>}
-
-        <button type="submit" className="login-button">LOGIN</button>
-      </form>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,13 @@
+body, html {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 2px solid var(--primary-color);
+}
+
+h1 {
+  color: var(--primary-color);
+}
