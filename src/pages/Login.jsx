@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import "../styles/Login.css";
-import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { loadTheme } from "../utils/themeLoader";
-import { API_LOGIN, photo_logo_hombre, photo_logo_mujer } from "./constants";
+import { photo_logo_hombre, photo_logo_mujer } from "./constants";
 
 const Login = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "femenino");
@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const { login } = useAuth(); // Assuming useAuth is imported from AuthContext
   const toggleTheme = () => {
     const newTheme = theme === "femenino" ? "masculino" : "femenino";
     setTheme(newTheme);
@@ -25,31 +25,18 @@ const Login = () => {
 
    const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
+      try {
+        const success = await login({username, password});
+        if (success) navigate("/home");
+        else { setError("Credenciales incorrectas");   }
 
-    try {
-      const response = await axios.post(API_LOGIN, {
-        username,
-        password,
-      });
-
-      const { user, token } = response.data;
-
-      // Guardar usuario y token
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // Cambiar tema si quieres que sea automático por género:
-      const userTheme = user.gender === "mujer" ? "femenino" : "masculino";
-      setTheme(userTheme);
-      localStorage.setItem("theme", userTheme);
-      loadTheme(userTheme);
-
-      // Redirigir
-      navigate("/home");
+        // Cambiar tema si quieres que sea automático por género:
+        const userTheme = user.gender === "mujer" ? "femenino" : "masculino";
+        setTheme(userTheme);
+        localStorage.setItem("theme", userTheme);      
+     
     } catch (err) {
-      setError("Credenciales incorrectas o error en el servidor.");
-      console.error(err);
+      setError("Credenciales incorrectas");      
     }
   };
 

@@ -1,9 +1,8 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import axios  from "axios";   // Assuming axios is used for API calls   
-import { useNavigate } from "react-router-dom";
+
 
 const AuthContext = createContext();
-
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
