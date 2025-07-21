@@ -69,7 +69,7 @@ const Login = () => {
           <button className="theme-toggle" onClick={toggleTheme}>
             Cambiar a {theme === "femenino" ? "masculino" : "femenino"}
           </button>
-          <h2>Iniciar Sesión</h2>
+          <h2 className="accent-title">Iniciar Sesión</h2>
           <form onSubmit={handleLogin}>
             <input
               type="email"

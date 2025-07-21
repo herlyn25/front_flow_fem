@@ -1,16 +1,16 @@
+
 export const loadTheme = (theme) => {
-  const id = "dynamic-theme";
-
-  // Elimina el tema anterior si existe
-  const existing = document.getElementById(id);
-  if (existing) {
-    existing.remove();
+  const root = document.documentElement;
+  if (theme === "femenino") {
+    root.style.setProperty("--primary", "#e91e63");
+    root.style.setProperty("--background", "#fff0f5");
+    root.style.setProperty("--card-bg", "#ffe4ec");
+    root.style.setProperty("--accent-color", "#a6005e");
+    root.style.setProperty("--text-color", " #4a4a4a");
+  } else {
+    root.style.setProperty("--primary", "#2196f3");
+    root.style.setProperty("--background", "#f0f8ff");
+    root.style.setProperty("--card-bg", "#e0f2f1");
+    root.style.setProperty("--accent-color", "#001f3f");
   }
-
-  // Crea un nuevo link con el nuevo tema
-  const link = document.createElement("link");
-  link.id = id;
-  link.rel = "stylesheet";
-  link.href = `/themes/theme-${theme}.css`; // ← nota: debe estar en /public
-  document.head.appendChild(link);
 };
