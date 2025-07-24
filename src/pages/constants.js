@@ -10,6 +10,7 @@ export const photoDefault = default_foto;
 export const API_URL = "http://localhost:8000"; // Replace with your API base URL
 export const API_LOGIN = `${API_URL}/auth/login`;
 export const API_MEMBERS = `${API_URL}/members`;
+export const API_MEMBERS_USER = `${API_URL}/members/user`;
 export const API_EVENTS = `${API_URL}/events`;
 export const photo_logo_hombre = logo_hombre;
 export const photo_logo_mujer = logo_mujer;

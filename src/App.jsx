@@ -4,8 +4,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { useAuth } from "./context/AuthContext";
 import MembersPage from "./pages/Members";
-import EventsPage from "./pages/Events";
-import { useEffect } from "react";
+import EventsPage from "./pages/MyEvents";
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();

@@ -1,13 +1,54 @@
-body, html {
-  background-color: var(--bg-color);
+
+.members-container {
+  padding: 2rem;
+  background-color: var(--bg-main);
+  min-height: 100vh;
+}
+
+.page-title {
+  text-align: center;
+  color: var(--accent-color);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.member-card {
+  background-color: var(--bg-form);
+  border: 1px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-5px);
+}
+
+.member-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 0.8rem;
+}
+
+.member-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  margin: 0.2rem 0;
+}
+
+.member-lastname,
+.member-gender {
+  font-size: 1rem;
   color: var(--text-color);
-}
-
-.card {
-  background-color: var(--card-bg);
-  border: 2px solid var(--primary-color);
-}
-
-h1 {
-  color: var(--primary-color);
 }
