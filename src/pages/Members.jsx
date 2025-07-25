@@ -31,7 +31,7 @@ const MembersPage = () => {
     fetchMembers();
   }, []);
 
-  return (
+  return (    
     <div className="members-container">
       <h2 className="page-title">Miembros Registrados</h2>
       <div className="members-grid">
@@ -51,8 +51,10 @@ const MembersPage = () => {
             <Link to={`/events?memberId=${member.id}`} className="view-events">Ver eventos</Link>
           </div>
         )))}
-      </div>
-      <Link to='/home' className="view-events">Home</Link>
+        
+      </div>   
+    
+     <Link to='/home' className="view-events">Home</Link>
     </div>
   );
 };

@@ -68,3 +68,15 @@ input {
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
+
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 8px;
+  color: #0000ee;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: inherit;
+}

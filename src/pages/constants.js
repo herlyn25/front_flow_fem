@@ -12,5 +12,6 @@ export const API_LOGIN = `${API_URL}/auth/login`;
 export const API_MEMBERS = `${API_URL}/members`;
 export const API_MEMBERS_USER = `${API_URL}/members/user`;
 export const API_EVENTS = `${API_URL}/events`;
+export const API_REGISTER_USER = `${API_URL}/users/register`;
 export const photo_logo_hombre = logo_hombre;
 export const photo_logo_mujer = logo_mujer;

@@ -3,12 +3,15 @@ import "../styles/Login.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { loadTheme } from "../utils/themeLoader";
-import { photo_logo_hombre, photo_logo_mujer } from "./constants";
+import { API_REGISTER_USER, photo_logo_hombre, photo_logo_mujer } from "./constants";
+import RegisterUserModal from "./RegisterUserModal";
+import axios from "axios";
 
 const Login = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "femenino");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showRegister, setShowRegister] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth(); // Assuming useAuth is imported from AuthContext
@@ -22,6 +25,23 @@ const Login = () => {
   useEffect(() => {
     loadTheme(theme);
   }, [theme]);
+
+  const handleRegister = async (data) => {
+    console.log("Registering user:", data);
+  try {
+    const response = await axios.post(API_REGISTER_USER, data);
+    if (response.status == 201) {
+      alert("Usuario creado exitosamente");
+      setShowRegister(false);
+    }else{
+      alert(response.data.message)
+    }
+    
+  } catch (error) {
+    console.error("Error en registro:", error);
+    alert("Error al registrar");
+  }
+};
 
    const handleLogin = async (e) => {
     e.preventDefault();
@@ -77,10 +97,18 @@ const Login = () => {
               Login
             </button>
           </form>
-          <a href="#">¿Olvidaste tu contraseña?</a>
+          <a href="#">   ¿Olvidaste tu contraseña?</a>
+          <span>  |</span>
+           <button type="button" onClick={() => setShowRegister(true)} className="link-btn">Registrarse</button>
         </div>
       </div>
+      <RegisterUserModal
+      isOpen={showRegister}
+      onClose={() => setShowRegister(false)}
+      onRegister={handleRegister}
+    />
     </div>
+
   );
 };
 
