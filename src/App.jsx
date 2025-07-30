@@ -6,22 +6,33 @@ import { useAuth } from "./context/AuthContext";
 import MembersPage from "./pages/Members";
 import EventsPage from "./pages/MyEvents";
 
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
-  if (!user) {
-    return <Navigate to="/" />;
-  }
-  return children;
-};
+
 
 function App() {
+  const { user } = useAuth();
+  const ProtectedRoute = ({ children }) => {
+
+    if (!user) {
+      return <Navigate to="/" />;
+    }
+
+    return children;
+  };
+
+  console.log("User in App.jsx:", user);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={ <ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/members" element={<ProtectedRoute><MembersPage /></ProtectedRoute>} />
-        <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
+        {
+          user ? <>
+            <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/members" element={<ProtectedRoute><MembersPage /></ProtectedRoute>} />
+            <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
+          </> : <>
+            <Route path="/"  element={user?<Home />:<Login />} />
+          </>
+        }
+        <Route path="*" element={<Navigate to={user ? "/home" : "/"} />} />
       </Routes>
     </BrowserRouter>
   );
