@@ -3,10 +3,12 @@ import "../styles/MembersPage.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import { photoWoman, photoMan, API_MEMBERS_USER } from "./constants";
+import { API_MEMBERS_USER } from "./constants";
 import { Link } from "react-router-dom";
+import { loadPhotos } from "../utils/photoLoader";
 
 const MembersPage = () => {
+
   const { user } = useAuth();
   const [members, setMembers] = useState([]);
   const [error, setError] = useState(null);
@@ -39,7 +41,7 @@ const MembersPage = () => {
         members.map((member) => (
           <div className="member-card" key={member.id}>
             <img
-              src={member.photo || (member.gender === "mujer" ? photoWoman : photoMan)}
+              src={loadPhotos(member.photo, member.gender)}
               alt="Foto del miembro"
               className="member-photo"
             />

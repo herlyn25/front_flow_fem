@@ -1,4 +1,3 @@
-
 export const loadTheme = (theme) => {
   const root = document.documentElement;
   if (theme === "femenino") {

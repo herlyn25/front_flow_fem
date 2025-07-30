@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import '../styles/Home.css';
+import { loadPhotos } from "../utils/photoLoader";
 
 const Home = () => {
   const { user, logout } = useAuth();
@@ -18,7 +19,7 @@ const Home = () => {
       <div className="navbar">
         <div className="navbar-left">
           <img
-            src={user?.photo}
+            src={loadPhotos(user?.photo,user?.gender)}
             alt="Avatar"
             className="avatar-image"
           />

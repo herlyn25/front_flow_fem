@@ -5,9 +5,6 @@ import Home from "./pages/Home";
 import { useAuth } from "./context/AuthContext";
 import MembersPage from "./pages/Members";
 import EventsPage from "./pages/MyEvents";
-
-
-
 function App() {
   const { user } = useAuth();
   const ProtectedRoute = ({ children }) => {
