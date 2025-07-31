@@ -1,4 +1,4 @@
-import { photoMan, photoWoman } from "../pages/constants";
+import { photoMan, photoWoman } from "./constants";
 
 export const loadPhotos = (photo, gender) => {
     if (photo === "" && gender === "mujer") {

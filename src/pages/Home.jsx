@@ -23,7 +23,7 @@ const Home = () => {
             alt="Avatar"
             className="avatar-image"
           />
-          <span className="user-name">👋 Bienvenido, {user?.firstName || "Usuario"}</span>
+          <span className="user-name">👋 Bienvenid{user.gender==="mujer"?"a":"o"}, {user?.firstName || "Usuario"}</span>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
           Logout

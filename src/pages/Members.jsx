@@ -1,43 +1,63 @@
 // src/pages/MembersPage.jsx
 import "../styles/MembersPage.css";
+import "../styles/AddMemberModal.css"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import { API_MEMBERS_USER } from "./constants";
+import { API_MEMBERS_REGISTER, API_MEMBERS_USER } from "../utils/constants";
 import { Link } from "react-router-dom";
 import { loadPhotos } from "../utils/photoLoader";
+import AddMemberModal from "./AddMemberModal";
 
 const MembersPage = () => {
-
   const { user } = useAuth();
-  const [members, setMembers] = useState([]);
-  const [error, setError] = useState(null);
+  const [members, setMembers] = useState([]);  
+  const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        
+  const handleRegister = async(data) => {
+    try {
+      const userData = JSON.parse(localStorage.getItem('user'))
+      const newData = {...data, user:userData.id}
+      
+      const response = await axios.post(API_MEMBERS_REGISTER, newData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if(response.status === 201){
+        alert("Members registrado")
+        setShowModal(false)
+        await fetchMembers()
+      }
+     
+    }catch(error){
+      alert("Error al registrar");
+    }
+  }
+  const fetchMembers = async () => {
+      try {        
         const response = await axios.get(`${API_MEMBERS_USER}/${user.id}`);        
-        if (response.status == 400) {
-           setError("No hay miembros registrados.");             
-        }else{
-            setMembers(response.data);
-            setError("")
-        }  
-        
-      } catch (error) {
+        if (response.status == 200) {          
+            setMembers(response.data);            
+        }         
+      } catch (error) {       
         console.error("Error en la peticion a la API:", error);
       }
     };
 
+  useEffect(() => {    
     fetchMembers();
   }, []);
 
   return (    
     <div className="members-container">
-      <h2 className="page-title">Miembros Registrados</h2>
+      <div>
+        <h2>Miembros Registrados</h2>
+        <button onClick={() => setShowModal(true)}>+ Añadir Miembro</button>
+      </div>
+      
       <div className="members-grid">
-        {members.length === 0 ?(<h2>{error}</h2>) : (
+        {members.length === 0 ? (<h2>No hay miembros para el usuario</h2>) : (
         members.map((member) => (
           <div className="member-card" key={member.id}>
             <img
@@ -52,12 +72,11 @@ const MembersPage = () => {
             </p>            
             <Link to={`/events?memberId=${member.id}`} className="view-events">Ver eventos</Link>
           </div>
-        )))}
-        
-      </div>   
-    
+        )))}        
+      </div>       
      <Link to='/home' className="view-events">Home</Link>
-    </div>
+    {showModal && <AddMemberModal onClose={() => setShowModal(false)} onRegister={handleRegister} />}
+    </div>    
   );
 };
 

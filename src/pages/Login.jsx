@@ -3,7 +3,7 @@ import "../styles/Login.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { loadTheme } from "../utils/themeLoader";
-import { API_REGISTER_USER, photo_logo_hombre, photo_logo_mujer } from "./constants";
+import { API_REGISTER_USER, photo_logo_hombre, photo_logo_mujer } from "../utils/constants";
 import RegisterUserModal from "./RegisterUserModal";
 import axios from "axios";
 
@@ -26,8 +26,7 @@ const Login = () => {
     loadTheme(theme);
   }, [theme]);
 
-  const handleRegister = async (data) => {
-    console.log("Registering user:", data);
+  const handleRegister = async (data) => {    
   try {
     const response = await axios.post(API_REGISTER_USER, data);
     if (response.status == 201) {
@@ -37,8 +36,7 @@ const Login = () => {
       alert(response.data.message)
     }
     
-  } catch (error) {
-    console.error("Error en registro:", error);
+  } catch (error) {    
     alert("Error al registrar");
   }
 };

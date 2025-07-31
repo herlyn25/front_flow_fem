@@ -2,7 +2,7 @@ import "../styles/Eventspage.css";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { API_EVENTS, API_MEMBERS } from "./constants"; // Adjust the import path as necessary
+import { API_EVENTS, API_MEMBERS } from "../utils/constants"; // Adjust the import path as necessary
 import { Link } from "react-router-dom";
 
 const EventsPage = () => {
@@ -17,11 +17,7 @@ const EventsPage = () => {
     const fetchEvents = async () => {
       if (!memberId) return;
       try {       
-        const response = await axios.get(`${API_EVENTS}/events/${memberId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await axios.get(`${API_EVENTS}/events/${memberId}`);
         const memberData =await axios.get(`${API_MEMBERS}/${memberId}`)
         setMember(memberData.data.firstname || "Miembro"); // Assuming member has a firstname property
         setEvents(response.data);       
