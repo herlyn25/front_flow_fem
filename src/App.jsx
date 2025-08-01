@@ -14,9 +14,7 @@ function App() {
     }
 
     return children;
-  };
-
-  console.log("User in App.jsx:", user);
+  }; 
   return (
     <BrowserRouter>
       <Routes>

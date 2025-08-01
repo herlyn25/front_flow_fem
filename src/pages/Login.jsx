@@ -28,7 +28,11 @@ const Login = () => {
 
   const handleRegister = async (data) => {    
   try {
-    const response = await axios.post(API_REGISTER_USER, data);
+    const response = await axios.post(API_REGISTER_USER, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     if (response.status == 201) {
       alert("Usuario creado exitosamente");
       setShowRegister(false);

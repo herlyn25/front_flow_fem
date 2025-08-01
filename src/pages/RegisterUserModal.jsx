@@ -11,7 +11,7 @@ const RegisterUserModal = ({ isOpen, onClose, onRegister }) => {
     username: "",
     password: "",
     role:"admin",
-    photo: "",
+    file: "",
     gender: "",
   });
 
@@ -20,11 +20,11 @@ const RegisterUserModal = ({ isOpen, onClose, onRegister }) => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0];    
     if (file && file.type.startsWith("image/")) {
-        setFormData((prev)=>({...prev, photo:file}));
+        setFormData((prev)=>({...prev, file:file}));
     } else if (!file){
-        setFormData((prev)=>({...prev, photo:''}));}
+        setFormData((prev)=>({...prev, file:''}));}
     else{
          alert("Solo se permiten archivos de imagen.");
     }    
@@ -54,12 +54,7 @@ const RegisterUserModal = ({ isOpen, onClose, onRegister }) => {
             <option>hombre</option>
             <option>mujer</option>
           </select>
-          <input
-          name="photo"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}          
-        />
+          <input name="file" type="file" accept="image/*" onChange={handleFileChange}/>
           <button type="submit" className="submit-btn">Registrarse</button>
         </form>
       </div>
