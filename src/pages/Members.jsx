@@ -4,23 +4,39 @@ import "../styles/AddMemberModal.css"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import { API_MEMBERS_REGISTER, API_MEMBERS_USER } from "../utils/constants";
+import { API_MEMBERS_REGISTER, API_MEMBERS_USER, API_REGISTER_EVENTS } from "../utils/constants";
 import { Link } from "react-router-dom";
 import { loadPhotos } from "../utils/photoLoader";
 import AddMemberModal from "./AddMemberModal";
 import { loadTheme } from "../utils/themeLoader";
+import EventModal from "./AddEventModal";
 
 const MembersPage = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "femenino");
   const { user } = useAuth();
   const [members, setMembers] = useState([]);  
   const [showModal, setShowModal] = useState(false);
+  const [showModalEventos, setShowModalEventos] = useState(false);
   const toggleTheme = () => {
       const newTheme = theme === "femenino" ? "masculino" : "femenino";
       setTheme(newTheme);
       localStorage.setItem("theme", newTheme);
       loadTheme(newTheme);
   };
+
+  const handleRegisterEvents = async(data) => {
+    try {    
+      const response = await axios.post(`${API_REGISTER_EVENTS}`, data);      
+      if(response.status === 201){
+        alert("Events registrado")
+        setShowModal(false)
+        await fetchMembers()
+      }     
+    }catch(error){
+      alert("Error al registrar eventos", error);
+      console.log(error)
+    }
+  }
   
   const handleRegister = async(data) => {
     try {
@@ -47,7 +63,8 @@ const MembersPage = () => {
         if (response.status == 200) {          
             setMembers(response.data);            
         }         
-      } catch (error) {       
+      } catch (error) {   
+        setMembers([])    
         console.error("Error en la peticion a la API:", error);
       }
     };
@@ -61,7 +78,8 @@ const MembersPage = () => {
     <div className="members-container">
       <div>
         <h2>Miembros Registrados</h2>
-        <button className="btn-add-member" onClick={() => setShowModal(true)}>+ Añadir Miembro</button>
+        <button  onClick={() => setShowModal(true)}>+ Añadir Miembro</button>
+        <button onClick={()=>setShowModalEventos(true)}>Añadir Eventos</button>
       </div>
       
       <div className="members-grid">
@@ -83,7 +101,8 @@ const MembersPage = () => {
         )))}        
       </div>       
      <Link to='/home' className="view-events">Home</Link>
-    {showModal && <AddMemberModal onClose={() => setShowModal(false)} onRegister={handleRegister} />}
+    {showModal && <AddMemberModal onClose={() => setShowModal(false)} onRegister={handleRegister} /> }
+    {showModalEventos && <EventModal isOpen={showModalEventos}  onClose={()=>setShowModalEventos(false)} onRegister={handleRegisterEvents} />}
     </div>    
   );
 };

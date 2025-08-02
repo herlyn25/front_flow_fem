@@ -15,6 +15,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth(); // Assuming useAuth is imported from AuthContext
+  
   const toggleTheme = () => {
     const newTheme = theme === "femenino" ? "masculino" : "femenino";
     setTheme(newTheme);
